@@ -1,0 +1,45 @@
+<%= render 'partial/navbar' %>
+<div class="container">
+    <div class="col-md-3">
+        <!-- vertical-navbar -->
+        <%= render 'partial/verticalnavbar'%>
+    </div>
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="text-center">
+                    <span style="font-size:24px;">リスティング内容の編集</span>
+                </div>
+            </div>
+
+            <div class="panel-body">            
+
+                <%= form_for @listing do |f| %>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>タイトル</label>
+                                <%= f.text_field :listing_title, placeholder: "リスティングタイトルを記載しましょう", class: "form-control" %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>内容</label>
+                                <%= f.text_area :listing_content, rows: 8, placeholder: "リスティングの内容について記述してください", class: "form-control" %>
+                            </div>                            
+                        </div>
+                    </div>
+            
+
+                    <div class="actions">
+                        <%= f.submit "更新", class: "btn btn-danger" %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

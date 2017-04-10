@@ -1,0 +1,21 @@
+<div class="sidebar-nav">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+        <label style="color: #fff;">他の項目を編集する</label>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse sidebar-navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="<%= 'active' if controller?("listings") && action?("basics") %>"><%= link_to "基本事項", manage_listing_basics_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("description") %>"><%= link_to "リスティングの内容", manage_listing_description_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("address") %>"><%= link_to "住所情報", manage_listing_address_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("price") %>"><%= link_to "料金", manage_listing_price_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("photos") %>"><%= link_to "写真", manage_listing_photos_path(@listing), data:{no_turbolink: true} %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("calendar") %>"><%= link_to "カレンダー", manage_listing_calendar_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("bankaccount") %>"><%= link_to "受取口座情報", manage_listing_bankaccount_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("publish") %>"><%= link_to "公開する", manage_listing_publish_path(@listing) %></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>

@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  home_type: MyString
+  pet_type: MyString
+  pet_size: MyString
+  breeding_years: 1
+  address: MyString
+  listing_title: MyString
+  listing_content: MyText
+  price_pernight: 1
+  active: false
+  user: one
+
+two:
+  home_type: MyString
+  pet_type: MyString
+  pet_size: MyString
+  breeding_years: 1
+  address: MyString
+  listing_title: MyString
+  listing_content: MyText
+  price_pernight: 1
+  active: false
+  user: two

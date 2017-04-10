@@ -1,0 +1,195 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "toastr";
+@import "dropzone/dropzone";
+
+
+.jumbotron {
+    padding-top: 0px;
+    // 背景画像を暗くする
+    background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05) ), url(person-845325_1920.jpg);
+    background-size: cover;
+    // 背景画像の位置を決める
+    background-position: 50% 50%;
+    height: 420px;
+}
+
+.jumbotron .container .row{
+    margin-top: 100px;
+    color: #fff;
+}
+
+.navbar-default {
+    background: transparent;
+    border-color: transparent;
+    z-index: 10;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+    font-size: 13px;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+//navbar-deviseのcss
+.navbar-devise {
+    background: #fff;
+    border-color: #fff;
+    z-index: 10;
+}
+
+.navbar-devise .navbar-nav > li > a {
+    color: #222222;
+    font-size: 13px;
+}
+
+.navbar-devise .navbar-brand {
+    color: #222222;
+}
+
+// トップページのnavbarのドロップダウンがクリックされた時
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: transparent;
+    color: #555;
+}
+
+//facebookボタン
+.btn-facebook {
+    color: #fff;
+    background-color: #4c66a4;
+}
+
+// プロフィール画像
+.profile-0 {
+    width: 28px;
+    height: 28px;
+}
+
+.profile-1 {
+    width: 50px;
+    height: 50px;
+}
+
+.profile-2{
+    width: 100px;
+    height: 100px;
+}
+
+.profile-full {
+  width: 30%;
+}
+
+@media (min-width: 992px){
+.profile-full {
+        width: 100%;
+    }    
+}   
+
+.row-space-1 {
+  margin-bottom: 10px;
+}
+
+.row-space-2 {
+  margin-bottom: 15px;
+}
+
+.row-space-3 {
+  margin-bottom: 20px;
+}
+
+.row-space-4 {
+  margin-bottom: 25px;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.vertification-checked:before{
+  content: "\f00c";
+  font-family: FontAwesome;
+  position: relative;
+  z-index: 100;
+  top:2px;
+  font-size: 1.55em;
+  text-align: center;
+  width: 1.25em;
+  color: #00d1c1;
+}
+
+
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.sidebar-nav .navbar-default .navbar-nav > li > a {
+    color: #222;
+    font-size: 16px;
+}
+
+.sidebar-nav .navbar-default .navbar-nav > li{
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff
+}
+
+.sidebar-nav .navbar-default .navbar-nav > li:first-child {
+    border-top: 1px solid #ddd;
+}
+
+.sidebar-nav .navbar-toggle {
+    background-color: #337ab7;
+}
+
+// dropzone.jsのcss
+@media (max-width: 768px){
+  .dz-preview, .dz-processing, .dz-image-preview, .dz-error, .dz-complete {
+      margin: 10px 0!important;
+      width: 100%;
+  }
+  .dropzone .dz-preview .dz-image {
+    width: 100%;   
+  }
+  .dropzone .dz-preview .dz-image img {
+    height: 120px;    
+  }
+}
+
+.dropzone .dz-preview .dz-image img{
+  width: 100%;
+  height: 100%;
+}
+
+.dropzone.dz-started .dz-message {
+  display: block;
+}
+
+body {
+    color: #222;
+    background-color: #F8F8F8;
+}

@@ -1,0 +1,64 @@
+<%= render 'partial/navbar' %>
+<div class="container">
+    <div class="col-md-3">
+        <!-- vertical-navbar -->
+        <%= render 'partial/verticalnavbar'%>
+    </div>
+    <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <div class="text-center">
+                  <span style="font-size:24px;">基本データの編集</span>
+              </div>
+          </div>
+
+          <div class="panel-body">           
+              <%= form_for @listing do |f| %>
+                  <div class="row">
+                      <div class="col-md-12 select">
+                          <div class="form-group">
+                              <label>お家の種類</label>
+                              <%= f.select :home_type, [["一軒家","一軒家"], ["マンション","マンション"], ["アパート","アパート"]], {prompt:"選択してください"}, {required: 'true', autofocus: 'true', class: 'form-control'} %>
+                          </div>
+                      </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                      <div class="col-md-12 select">
+                          <div class="form-group">
+                              <label>ペットの種類</label>
+                              <%= f.select :pet_type, [["犬","犬"], ["猫","猫"], ["鳥類","鳥類"], ["爬虫類","爬虫類"], ["魚類","魚類"], ["両生類","両生類"], ["その他","その他"]], {prompt:"選択してください"}, {required: 'true', autofocus: 'true', class: 'form-control'} %>
+                          </div>
+                      </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                      <div class="col-md-12 select">
+                          <div class="form-group">
+                              <label>ペットの飼育歴</label>
+                              <%= f.select :breeding_years, [["1年",1], ["2年",2], ["3年",3], ["4年",4], ["5年",5], ["6年以上",6]], {prompt:"選択してください"}, {required: 'true', autofocus: 'true', class: 'form-control'} %>
+                          </div>
+                      </div>
+                  </div>
+                  <br>
+
+                  <div class="row">
+                      <div class="col-md-12 select">
+                          <div class="form-group">
+                              <label>ペットのサイズ</label>
+                              <%= f.select :pet_size, [["小型","小型"], ["中型","中型"], ["大型","大型"], ["超大型","超大型"]], {prompt:"選択してください"}, {required: 'true', autofocus: 'true', class: 'form-control'} %>
+                          </div>
+                      </div>
+                  </div>
+                  <br>
+
+                  <div class="actions">
+                      <%= f.submit "更新", class: "btn btn-danger" %>
+                  </div>
+              <% end %>
+          </div>
+      </div>
+  </div>
+</div>
