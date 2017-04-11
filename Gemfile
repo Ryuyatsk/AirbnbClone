@@ -47,7 +47,7 @@ group :production do
   gem 'rails_12factor'
 end
 
-group :development, :test do
+group :development, :test do 
   gem 'sqlite3'
 end
 
