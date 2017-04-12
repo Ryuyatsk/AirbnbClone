@@ -42,15 +42,15 @@ gem 'dropzonejs-rails'
 
 gem "figaro", "1.1.0"
 
-group :production do
-  gem 'pg'
-  gem 'rails_12factor'
-end
 
-group :development, :test do 
+group :development, :test do
   gem 'sqlite3'
 end
-
+ 
+group :production do
+  gem 'pg', '0.18.4'
+  gem 'rails_12factor'
+end
 
 
 # Use Redis adapter to run Action Cable in production
