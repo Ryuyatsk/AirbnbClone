@@ -41,11 +41,6 @@ gem "paperclip", "~> 5.0.0"
 gem 'dropzonejs-rails'
 
 gem "figaro", "1.1.0"
-
-
-group :development, :test do
-  gem 'sqlite3'
-end
  
 group :production do
   gem 'pg', '0.18.4'
