@@ -1,0 +1,42 @@
+<%= render 'partial/navbar' %>
+
+<div class="container"> 
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="text-center">
+          <span style="font-size:18px;">予約予定</span>
+        </div>
+      </div>
+      <ul class="ul-unstyled">
+        <% @reservations.each do |reservation| %>
+          <li class="panel-body">
+            <div class="row-table">
+              <div class="col-md-3 col-sm-3 col-middle row-space-2">
+                <div class="panel-list-img text-center">
+                  <%= image_tag reservation.listing.photos[0].image.url(:thumb) %>
+                </div> 
+              </div>
+
+              <div class="col-sm-7 col-lg-7 col-middle row-space-2">
+                <span class="listing-title"><%= reservation.listing.listing_title %></span>
+              </div>
+
+              <div class="col-md-2 col-sm-2 col-xs-10 col-middle row-space-2">
+                <%= reservation.start_date.strftime('%Y年%m月%d日〜') %>
+              </div>
+
+              <div class="col-md-2 col-sm-2 col-xs-10 col-middle row-space-2">
+                <%= link_to user_path(reservation.listing.user) do %>
+                  <%= image_tag reservation.listing.user.image, class: "img-circle profile-1" %>
+                  <%= reservation.listing.user.name %>
+                <% end %>
+              </div>
+
+            </div>
+          </li>
+        <% end %>       
+      </ul>   
+    </div>
+  </div>
+</div>

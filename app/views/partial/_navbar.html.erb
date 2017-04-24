@@ -30,13 +30,16 @@
                 <%= image_tag current_user.image, class:"img-circle profile-0" %>
                 <%= current_user.name %>
               <% else %>
-                <% current_user.email %>
+                <%= current_user.email.split("@")[0] %>
               <% end %>
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
               <li><%= link_to "プロフィール", user_path(current_user) %></li>
               <li><%= link_to "プロフィール編集", edit_user_registration_path(current_user) %></li>
+              <li><%= link_to "リスティング管理", listings_path %></li>
+              <li><%= link_to "ペットを預ける", reservations_path %></li>
+              <li><%= link_to "シッター予定", reserved_path %></li>
               <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
             </ul>
           </li>          

@@ -1,0 +1,28 @@
+<%= render 'partial/navbar' %>
+
+<div class="container">
+  <div class="col-md-3">
+    <!-- vertical-navbar -->
+    <%= render 'partial/verticalnavbar'%>
+  </div>
+
+  <div class="col-md-9">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              <div class="text-center">
+                  <span style="font-size:24px;">受取口座情報の編集</span>
+              </div>
+          </div>
+
+          <div class="panel-body">            
+              <% if @user.connected? %>
+                  <%= render 'stripe/setting' %>
+               
+              <% else %>
+
+                  <%= render 'stripe/connect' %>
+              <% end %>
+          </div>
+      </div>
+  </div>  
+</div>

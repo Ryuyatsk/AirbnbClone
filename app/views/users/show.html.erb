@@ -4,15 +4,15 @@
 <script type="text/javascript">
 	$(function(){
 		<% if !@user.email.blank? %>
-			$("#ver-email").attr('class', 'vertification-checked');
+			$("#ver-email").attr('class','vertification-checked');
 		<% end %>
 
 		<% if !@user.phone_number.blank? %>
-			$("#ver-tel").attr('class', 'vertification-checkedd');
+			$("#ver-tel").attr('class','vertification-checked');
 		<% end %>
 
 		<% if @user.provider == "facebook" %>
-			$("#ver-facebook").attr('class', 'vertification-checked');
+			$("#ver-facebook").attr('class','vertification-checked');
 		<% end %>
 	});
 </script>
@@ -24,7 +24,7 @@
 				<%= image_tag @user.image, class: "profile-full img-circle" %>
 			</div>
 
-			<div class="panel panel-default verifications hidden-xs hodden-sm">
+			<div class="panel panel-default verifications hidden-xs hidden-sm">
 				<div class="panel-heading">
 					認証済みID
 				</div>
@@ -43,11 +43,11 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-lg-9 col-md-8 col-sm-12">
-			<h1>こんにちわ <%= @user.name %> です！</h1>
+			<h1>こんにちわ <%= @user.name %> です!</h1>
 			<p>自己紹介</p>
-			<p><%= @user.description %></p>
+			<%= @user.description %>
 		</div>
-	</div>
+	</div>  	
 </div>

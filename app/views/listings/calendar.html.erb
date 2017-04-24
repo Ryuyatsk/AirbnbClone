@@ -1,0 +1,133 @@
+<%= render 'partial/navbar' %>
+<div class="container">
+  <div class="col-md-3">
+    <!-- vertical-navbar -->
+      <%= render 'partial/verticalnavbar'%>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="text-center">
+          <span style="font-size:24px;">Calendar</span>
+
+        </div>
+      </div>
+
+      <div class="panel-body">      
+
+        <!-- datepicker Calendar -->
+        <%= form_for([@listing, @listing.reservations.new]) do |f| %>
+          <div class="row row-space-top-4">
+            <div class="col-md-8 col-md-offset-2 calendar">
+              <label>預かりができない日を指定</label>
+              <div id="datepicker"></div>
+            </div>
+          </div>
+          <br>
+          <hr>
+
+          <!-- 隠し要素として"listing_id"をおくる -->
+          <%= f.hidden_field :listing_id, value: @listing.id %>
+          <%= f.hidden_field :selectedDates, value: "",id:"selectedDates" %>
+          
+  
+          <div class="actions">
+            <%= f.submit "更新", class: "btn btn-danger" %>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// http://stackoverflow.com/questions/1452066/jquery-ui-datepicker-multiple-date-selections
+// 上のurlを参照
+
+//他人がした予約日
+disabledDates = [];
+
+//自分が予約した日付
+selectedDates = [];
+
+function addDate(date) {
+  if ($.inArray(date, selectedDates) < 0) {
+    selectedDates.push(date);
+  }
+}
+
+function removeDate(index){
+  //splice(削除開始位置,削除する要素数)
+  selectedDates.splice(index,1);
+}
+
+// 選択された日付がすでに"selectedDates"にあれば、削除。なければ追加
+function addOrRemoveDate(date) {
+    var index = jQuery.inArray(date, selectedDates);
+    if (index >= 0) 
+      removeDate(index);
+    else 
+      addDate(date);
+}
+
+// カレンダーの選択可能日と不可能日を決める関数
+function SelectMultipleDates(date){
+  //inArray(value,array) 第一引数に渡した値が配列中にあれば、そのインデックスを返します。
+  var gotDateIndex = $.inArray($.datepicker.formatDate($(this).datepicker('option', 'dateFormat'), date), selectedDates);
+  var disabledDateIndex = $.inArray($.datepicker.formatDate($(this).datepicker('option', 'dateFormat'), date), disabledDates);
+
+  if (gotDateIndex >= 0) {
+    return [true,'class-holiday'];
+  }else if(disabledDateIndex >= 0){
+    return [false,''];
+  }else{
+    return [true, ""];
+  }
+}
+
+// メインの処理　
+$(function () {
+  $.ajax({
+    url: '/setdate',
+    // this data is data for sending to url
+    data: {'listing_id': <%= @listing.id %>},
+    dataType: 'json',
+    // callback argument: data is the response data
+    success: function(data){
+   
+      $.each(data,function(arrID,arrValue){
+        //自分で予約した日付"selectedDates[]"と他人が予約した日付"disabledDates[]"をわけてpushしなきゃいけない
+        for(var d = new Date(arrValue.start_date); d <= new Date(arrValue.end_date); d.setDate(d.getDate() + 1 )){
+
+          // 自分で予約した場合の日付
+          if(arrValue.user_id == <%= current_user.id %>){
+            selectedDates.push($.datepicker.formatDate('d-m-yy',d));
+            $('#selectedDates').val(selectedDates);
+          }else{
+            disabledDates.push($.datepicker.formatDate('d-m-yy',d));
+          }            
+        }       
+      });
+
+      $("#datepicker").datepicker({
+          dateFormat: "d-m-yy",
+          minDate: 0, // Unix timestamp
+          beforeShowDay:SelectMultipleDates,
+          onSelect: function(dateText, inst){
+              addOrRemoveDate(dateText);
+              $('#btn-book').attr('disabled', false);
+              $('#selectedDates').val(selectedDates);
+              //ruby controller 内で　, で区切って配列化
+              console.log("セレクト");
+              console.log(selectedDates);
+              console.log("ディスエイブル");
+              console.log(disabledDates);
+          }
+      });
+    }
+  });
+});
+</script>

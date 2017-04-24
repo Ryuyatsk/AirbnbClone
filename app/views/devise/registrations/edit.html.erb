@@ -30,6 +30,10 @@
             </div>
 
             <div class="form-group">
+              <%= f.file_field :image, :class => 'form-control' %>
+            </div>
+
+            <div class="form-group">
               <%= f.label :新しいパスワード %> <i>(変更しない場合は空欄で構いません)</i><br />
               <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
             </div>
