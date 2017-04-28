@@ -1,0 +1,25 @@
+<!-- review routes is nested -->
+<%= form_for([@listing,@listing.reviews.new]) do |f| %>
+
+  <div id="rate_stars"></div>
+
+  <div class="form-group">
+    <%= f.text_area :description,rows: 3,class: "form-control" %>     
+  </div>
+
+
+  <%= f.hidden_field :listing_id, value: @listing.id %>
+  
+  <div class="actions">
+    <%= f.submit "このシッターを評価する", class: "btn btn-danger"%>       
+  </div>
+
+<% end %>
+
+<script type="text/javascript">
+	$("#rate_stars").raty({
+		path: '/assets',
+		scoreName: 'review[rate]',
+		score: 1
+	});
+</script>

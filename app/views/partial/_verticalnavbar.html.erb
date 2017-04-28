@@ -7,15 +7,77 @@
     </div>
     <div class="navbar-collapse collapse sidebar-navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="<%= 'active' if controller?("listings") && action?("basics") %>"><%= link_to "基本事項", manage_listing_basics_path(@listing) %></li>
-        <li class="<%= 'active' if controller?("listings") && action?("description") %>"><%= link_to "リスティングの内容", manage_listing_description_path(@listing) %></li>
-        <li class="<%= 'active' if controller?("listings") && action?("address") %>"><%= link_to "住所情報", manage_listing_address_path(@listing) %></li>
-        <li class="<%= 'active' if controller?("listings") && action?("price") %>"><%= link_to "料金", manage_listing_price_path(@listing) %></li>
-        <li class="<%= 'active' if controller?("listings") && action?("photos") %>"><%= link_to "写真", manage_listing_photos_path(@listing), data:{no_turbolink: true} %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("basics") %> listing-checked" id="nav-basics"><%= link_to "基本事項", manage_listing_basics_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("description") %>" id="nav-description"><%= link_to "リスティングの内容", manage_listing_description_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("address") %>" id="nav-address"><%= link_to "住所情報", manage_listing_address_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("price") %>" id="nav-price"><%= link_to "料金", manage_listing_price_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("photos") %>" id="nav-photos"><%= link_to "写真", manage_listing_photos_path(@listing), data:{no_turbolink: true} %></li>
         <li class="<%= 'active' if controller?("listings") && action?("calendar") %>"><%= link_to "カレンダー", manage_listing_calendar_path(@listing) %></li>
-        <li class="<%= 'active' if controller?("listings") && action?("bankaccount") %>"><%= link_to "受取口座情報", manage_listing_bankaccount_path(@listing) %></li>
-        <li class="<%= 'active' if controller?("listings") && action?("publish") %>"><%= link_to "公開する", manage_listing_publish_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("bankaccount") %>" id="nav-bankaccount"><%= link_to "受取口座情報", manage_listing_bankaccount_path(@listing) %></li>
+        <li class="<%= 'active' if controller?("listings") && action?("publish") %>" id="nav-publish"><%= link_to "公開する", manage_listing_publish_path(@listing) %></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
 </div>
+
+<script>
+$(function(){
+
+  // basicsが常に存在するので、値は5からスタート
+  var notchecked = 5;
+
+  // Modelに値が存在するならば、chekedクラスを追加して、not checked-- により、あたいをヘラす。
+  <% if !@listing.listing_title.blank? && !@listing.listing_content.blank? %>
+    $('#nav-description').attr('class', 'listing-checked');
+    notchecked--;
+  <%else%>
+    $('#nav-description').attr('class', 'listing-notchecked');
+  <% end %>
+
+  <% if !@listing.address.blank? %>
+    $('#nav-address').attr('class', 'listing-checked');
+    notchecked--;
+  <%else%>
+    $('#nav-address').attr('class', 'listing-notchecked');        
+  <% end %>
+
+  <% if !@listing.photos.blank? %>
+    $('#nav-photos').attr('class', 'listing-checked');
+    notchecked--;
+  <%else%>
+      $('#nav-photos').attr('class', 'listing-notchecked');          
+  <% end %>
+
+  <% if !@listing.price_pernight.blank? %>
+    $('#nav-price').attr('class', 'listing-checked');
+    notchecked--;
+  <%else%>
+    $('#nav-price').attr('class', 'listing-notchecked');          
+  <% end %>
+
+  <% if !@listing.user.stripe_user_id.blank? %>
+    $('#nav-bankaccount').attr('class', 'listing-checked');
+    notchecked--;
+  <%else%>
+    $('#nav-bankaccount').attr('class', 'listing-notchecked');
+  <% end %>
+    
+
+  // notcheckedがあるなら、残り〜と表示して、違うなら、公開するを押せるようにする。
+  if(notchecked > 0){
+    $("li#nav-publish a").text("残り"+ notchecked +"ステップ");
+    $("li#nav-publish a").removeAttr("href");
+  }else{
+    $("li#nav-publish a").text("公開する");
+  }
+
+  // ajaxでそのリスティングの、not_checkedランを更新する。
+  $.ajax({
+    // jsonで送った、notcheckedのデータでmodelのnot_checkedを更新する
+    url: '/not_checked',
+    // this data is data for sending to url
+    data: {'listing_id': <%= @listing.id %>,'not_checked': notchecked},
+    dataType: 'json'
+  });
+});
+</script>

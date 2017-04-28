@@ -1,0 +1,168 @@
+<script>
+  $(function(){
+    $("#pac-input").removeClass("hidden")
+  });
+</script>
+<%= render 'partial/navbar' %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Search Filter -->
+                <div id="search-filter">
+                    <%= render 'filter' %>
+                </div>
+                <!-- Search Result -->
+                <div id="search-result" class="row-space-top-4">
+                    <%= render 'list' %>
+                </div>
+        </div>
+
+        <div class="col-md-6">
+            <div id="map" style="height: 500px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat:<%= @latitude %>, lng: <%= @longitude %>},
+    zoom: 13
+  });
+  var input = /** @type {!HTMLInputElement} */(
+      document.getElementById('pac-input'));
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', map);
+  
+  // マーカーとインフォウィンドウの配列を用意
+  markers = [];
+  infowindows = [];
+
+  <% @arrlistings.each do |listing| %>
+        
+    //markerはこの関数の中で同じ変数
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(<%= listing.latitude %>, <%= listing.longitude %>),
+      map: map
+    });
+
+    // マーカー配列にマーカを保存
+    markers.push(marker);
+
+    // マーカーがクリックされた時の処理
+    marker.addListener('click', function() {
+      
+      <% if !listing.photos.blank? %>
+        var content = "<div>" + '<a href="/listings/' + <%= listing.id %> +'">' + "<img src="+"<%= listing.photos[0].image.url(:thumb) %>" + " " + "style='width: 100%;height: 150px;'" +"alt='139'>" + "</a>" + '<br>' + "<h5><%= listing.listing_title %></h5>" + "<div class="+"col-md-12"+">"+"<h4>Reviews <span class="+"average_rating_listing"+"></span>"+"(<%= listing.reviews.count %>)"+"</h4></div>";
+      <% end %>
+
+      // infowindowを作成
+      var infowindow = new google.maps.InfoWindow({
+        content: content,
+        maxWidth: 280
+      });
+
+      infowindow.open(map, this);
+      infowindows.push(infowindow);
+
+      //infowindowが完全に読み込まれた時に実行される処理
+      google.maps.event.addListener(infowindow, 'domready', function() {
+        $('.average_rating_listing').raty({
+          path: '/assets',
+          readOnly: true,
+          score: <%= listing.average_star_rate %>
+        });
+      });
+    });
+            
+  <% end %>
+
+  //autocompleteの検索欄が変更された時の処理
+  autocomplete.addListener('place_changed', function() {
+
+    // すべてのinfowindowを消す
+    infowindows.forEach(function(infowindow) {
+      infowindow.close();
+    });
+    infowindows = [];
+
+    // すべてのmarkerを消す
+    markers.forEach(function(marker) {
+        marker.setVisible(false);
+    });
+    markers = [];
+
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+      map.setZoom(13);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(13);  // Why 17? Because it looks good.
+    }
+
+    // 入力欄の場所の緯度経度情報を取得
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
+        
+    // 緯度経度情報をまとめる   
+    var geolocation = [lat,lng];
+
+    // 場所の住所
+    var location = place.formatted_address;
+
+    // autocompleteの入力欄が変更されたらurlも変更して履歴に残す
+    url = "/search?utf8=✓&search="+place.formatted_address;
+    
+    window.history.pushState(null,null,url);
+
+    $.ajax({
+      url: '/ajaxsearch',
+        // this data is data for sending to url
+        data: {'geolocation': geolocation}
+    });
+
+  });
+
+  //google map がドラッグされた時の処理
+  google.maps.event.addListener(map, 'dragend', function() { 
+    // すべてのinfowindowを消す
+    infowindows.forEach(function(infowindow) {
+      infowindow.close();
+    });
+    infowindows = [];
+
+    // すべてのmarkerを消す
+    markers.forEach(function(marker) {
+        marker.setVisible(false);
+    });
+    markers = [];
+    
+    var pos = map.getCenter();
+    var lat = pos.lat();
+    var lng = pos.lng();
+
+    var geolocation = [lat,lng];
+    
+    $.ajax({
+      url: '/ajaxsearch',
+      // this data is data for sending to url
+      data: {'geolocation': geolocation}
+    });
+
+  });
+
+
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1BoiSo2jL950_AuFzV-f9ETgKn0uQl2I&signed_in=true&libraries=places&callback=initMap" async defer></script>

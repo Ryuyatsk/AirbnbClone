@@ -1,21 +1,160 @@
 <script type="text/javascript">
-	$(function(){
-		$(".navbar").removeClass("navbar-devise");
-		$(".navbar").addClass("navbar-default");
-	});
+  $(function(){
+    $(".navbar").removeClass("navbar-devise");
+    $(".navbar").addClass("navbar-default");
+  });
 </script>
 
 <div class="jumbotron">
 	<%= render 'partial/navbar' %>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3 text-center">
-				<h1 class="display-3">Hello, world!</h1>
-			</div>
-		</div>	
-	</div>
+  <div class="container">
+   <div class="row">
+     <div class="col-md-6 col-md-offset-3 text-center">
+       <h1 class="display-3">Hello, world!</h1>
+     </div>
+   </div> 
+  </div>
+
+  <!-- Search Form -->
+  <div class="top-search-field">
+    <%= form_tag search_path, method: :get do %>
+      <div class="row">
+        <div class="container">
+
+		    	<%= hidden_field_tag :lat %>
+		    	<%= hidden_field_tag :lng %>
+
+          <div class="col-md-7 col-xs-10" style="padding-right: 0px">
+            <%= text_field_tag :search, params[:search], placeholder: "希望の場所はどこですか？", class: "form-control", id: "top-search-form" %>
+          </div>
+
+          <div class="col-md-2 hidden-xs hidden-sm">
+            <%= text_field_tag :start_date, params[:start_date], placeholder: "チェックイン", class: "form-control" %>
+          </div>
+          <div class="col-md-2 hidden-xs hidden-sm">
+            <%= text_field_tag :end_date, params[:end_date], placeholder: "チェックアウト", class: "form-control" %>
+          </div>
+          <div class="col-md-1 col-xs-2" style="padding-left: 0px; ">
+            <%= submit_tag "検索", class: "btn btn-danger" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
 
-<h1>Pages#index</h1>
-<p>Find me in app/views/pages/index.html.erb</p>
+<div class="container">  
+  <!-- ご利用の流れ -->
+  <section id="services">
+    <div class="container">
+      <div class="row row-space-4">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">ご利用の流れ</h2>
+          <h3 class="section-subheading">Petshuggyはペットを預けるサービスです</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <%= image_tag 'search-icon'%>
+          <h4 class="service-heading">探す</h4>
+          <p class="text-muted hidden-xs">まず、ペットを預けるペットシッターをこのサイトで検索しましょう。</p>
+        </div>
+        <div class="col-md-4">
+          <%= image_tag 'calendar-icon'%>
+          <h4 class="service-heading">予約する</h4>
+          <p class="text-muted hidden-xs">いいなと思うペットシッターがいたら、ペットを預けたい日にちを予約しましょう。</p>
+        </div>
+        <div class="col-md-4">
+          <%= image_tag 'home-icon'%>
+          <h4 class="service-heading">預ける</h4>
+          <p class="text-muted hidden-xs">予約した日の当日になったら、ペットを預けて、自分たちの時間を楽しみましょう！</p>
+        </div>
+      </div>
+    </div>
+  </section> 
+
+  <!--　おすすめのシッター -->
+  <section id="portfolio" class="bg-light-gray row-space-top-4 row-space-4">
+    <div class="container">
+      <div class="row row-space-2">
+        <div class="col-lg-12 text-center">
+          <h3 class="section-heading">おすすめのシッター紹介</h3>
+          <h4 class="section-subheading">Petshuggy認定のペットシッターです</h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <% @users.each do |user|%>
+          <% if !user.listings.blank?%>
+            <div class="col-md-4 col-sm-6 portfolio-item row-space-2">
+              <%= link_to listing_path(user.listings[0]) do %>
+                <%= image_tag user.listings[0].photos[0].image.url(:medium) %>
+              <% end %>
+              <div class="portfolio-caption">
+                <%= image_tag user.image,class:"img-circle profile-1"%>
+                <span style="font-weight: bold;"><%= user.name %>さん</span>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%= render 'pages/footer' %>
+
+<!-- datepickerのスクリプト -->
+<script>
+  $(function() {
+    $("#start_date").datepicker({
+      dateFormat: 'dd-mm-yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#end_date').datepicker("option", "minDate", selected);
+        $('#end_date').attr('disabled', false);
+      }
+    });
+
+    $("#end_date").datepicker({
+      dateFormat: 'dd-mm-yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#start_date').datepicker("option", "maxDate", selected);
+      }
+    });
+  })
+</script>
+
+
+<script>
+function init() {
+
+  var input = /** @type {!HTMLInputElement} */(
+      document.getElementById('top-search-form'));
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  
+  autocomplete.addListener('place_changed', function() {
+
+    var place = autocomplete.getPlace();
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
+
+    document.getElementById('lat').value = lat ;
+    document.getElementById('lng').value = lng ;
+    
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+  });
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1BoiSo2jL950_AuFzV-f9ETgKn0uQl2I&signed_in=true&libraries=places&callback=init"
+    async defer></script>

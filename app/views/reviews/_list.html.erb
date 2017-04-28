@@ -1,0 +1,33 @@
+<% if @reviews.count == 0 %>
+  <div class="text-center">
+    <h4>There is no review yet</h4>
+  </div>
+<% else %>
+  <% @reviews.order("id desc").each do |review| %>
+    <hr>
+    <div class="row">
+      <div class="col-md-2 text-center">
+        <%= image_tag review.user.image, class:"img-circle profile-1" %>
+        <div class="row">
+          <%= review.user.name %>
+        </div> 
+      </div>
+      <div class="col-md-10">
+        <div class="row-space-1">
+          <%= review.description %>
+        </div>
+        
+        <div>
+          <%= review.created_at.strftime("%Y年%m月%d日") %>
+        </div>
+        
+        <div>
+          <span class="pull-right">
+            <%= link_to "DELETE",[@listing,review],method: :delete, data: {confirm: "Are you sure?"},class:"btn btn-danger" if current_user && current_user = review.user %>
+            <!-- only current_user && reviewed user remove reviews -->
+          </span>
+        </div>
+      </div>
+    </div>
+  <%end%>
+<% end %>

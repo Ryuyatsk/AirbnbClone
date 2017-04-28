@@ -1,0 +1,38 @@
+<%= render 'partial/navbar' %>
+<!-- this page has instance @other, @messages from message contr ,@conversation from convesation contrl-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <%= image_tag @other.image, class: "img-circle profile-1" %><br>
+            <strong><%= @other.name %></strong>
+            <br>
+            <%= link_to "Show Profile", @other, class: "btn btn-default btn-wide row-space-2 row-space-top-2" %>
+        </div>
+
+        <div class="col-md-9">
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                     Conversation with <%= @other.name %>
+                </div>
+                <div class="panel-body">
+                    <%= form_for [@conversation, @conversation.messages.new], remote: true do |f| %>
+                        <div class="form-group">
+                            <%= f.text_area :body, placeholder: "Write your messages here", class: "form-control" %>
+                        </div>
+                        <%= f.hidden_field :user_id, value: current_user.id %>
+
+                        <div class="actions">
+                            <%= f.submit "Send", class: "btn btn-danger pull-right" %>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+            
+            <div id="chat"> 
+                <%= render @messages %>
+            </div>
+        </div>
+    </div>
+    <%= subscribe_to conversation_messages_path(@conversation) %>
+</div>

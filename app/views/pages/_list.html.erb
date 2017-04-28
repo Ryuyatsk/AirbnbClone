@@ -1,0 +1,31 @@
+<% if @arrlistings  %>
+    <div class="row filter-section">
+        <% @arrlistings.each do |listing| %>          
+            <div class="col-md-6">
+                <%= link_to listing do %>
+                    <div class="panel panel-default">
+                        <div class="panel-heading panel-listing text-center" style="padding: 0;">
+                            <%= link_to(listing) do %>
+                                <%= image_tag listing.photos[0].image.url(:medium)  if listing.photos.length > 0 %>
+                            <% end %>
+                            
+                            <div class="price-card">
+                                    <%= listing.price_pernight %> 円     
+                            </div>
+                        </div>        
+                            
+
+                        <div class="panel-body">                
+                                <div class="col-md-10 col-xs-10">
+                                    <%= listing.listing_title %>
+                                </div>
+                                <div class="col-md-2 col-xs-2">
+                                    <%= image_tag listing.user.image,class:"img-circle profile-1" %>
+                                </div>    
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+<% end %>

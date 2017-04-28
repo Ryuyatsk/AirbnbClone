@@ -1,0 +1,39 @@
+$('#search-result').html("<%= j render 'pages/list' %>");
+document.getElementById('search-address').value = "<%= session[:address] %>";
+
+<% @arrlistings.each do |listing| %>
+  //markerはこの関数の中で同じ変数
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(<%= listing.latitude %>, <%= listing.longitude %>),
+      map: map
+    });
+
+    // マーカー配列にマーカを保存
+    markers.push(marker);
+
+    // マーカーがクリックされた時の処理
+    marker.addListener('click', function() {
+      
+      <% if !listing.photos.blank? %>
+        var content = "<div>" + '<a href="/listings/' + <%= listing.id %> +'">' + "<img src="+"<%= listing.photos[0].image.url(:thumb) %>" + " " + "style='width: 100%;height: 150px;'" +"alt='139'>" + "</a>" + '<br>' + "<h5><%= listing.listing_title %></h5>" + "<div class="+"col-md-12"+">"+"<h4>Reviews <span class="+"average_rating_listing"+"></span>"+"(<%= listing.reviews.count %>)"+"</h4></div>";
+      <% end %>
+
+      // infowindowを作成
+      var infowindow = new google.maps.InfoWindow({
+        content: content,
+        maxWidth: 280
+      });
+
+      infowindow.open(map, this);
+      infowindows.push(infowindow);
+
+      //infowindowが完全に読み込まれた時に実行される処理
+      google.maps.event.addListener(infowindow, 'domready', function() {
+        $('.average_rating_listing').raty({
+          path: '/assets',
+          readOnly: true,
+          score: <%= listing.average_star_rate %>
+        });
+      });
+    });
+<% end %>

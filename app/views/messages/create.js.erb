@@ -1,0 +1,7 @@
+// prepend _message.html.erb to #chat
+<% publish_to conversation_messages_path(@conversation) do %>
+	$('#chat').prepend("<%= j(render @message)%>");  
+<% end %>
+
+// メッセージの入力欄を空にする
+$('#new_message')[0].reset();

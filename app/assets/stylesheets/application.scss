@@ -7,13 +7,14 @@
 
 
 .jumbotron {
-    padding-top: 0px;
-    // 背景画像を暗くする
-    background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05) ), url(person-845325_1920.jpg);
+  padding-top: 0px;
+  // 背景画像を暗くする
+  background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05) ), url(person-845325_1920.jpg);
   background-size: cover;
   // 背景画像の位置を決める
   background-position: 50% 50%;
   height: 420px;
+  position: relative;
 }
 
 .jumbotron .container .row{
@@ -357,6 +358,159 @@ span.listing-title {
   overflow: visible;
   text-indent: 0px;
 }
+
+// listingチェックのcss
+li.listing-checked:before{
+  content: "\f00c";
+  font-family: FontAwesome;
+  position: absolute;
+  z-index: 100;
+  top:15%;
+  right: 5px;
+  font-size: 1.55em;
+  text-align: center;
+  width: 1.25em;
+  color: #00d1c1;
+}
+
+// vertical-navbar notcheckedmark
+li.listing-notchecked:before{
+  content: "\f067";
+  font-family: FontAwesome;
+  position: absolute;
+  z-index: 100;
+  top: 15%;
+  right: 5px;
+  font-size: 1.55em;
+  text-align: center;
+  width: 1.25em;
+  color: #555;
+}
+
+li#nav-publish a{
+  color: #d9534f;
+  font-weight: bold;
+}
+
+
+// Top-search-fieldのcss
+.top-search-field {
+  height: 90px; 
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 0;
+  background: rgba(0,0,0,0.6);
+}
+
+@media (min-width: 992px){
+  .top-search-field .col-md-7,.col-md-2,.col-md-1{
+    padding: 0;
+  }
+}
+
+.top-search-field input{
+  border-radius: 0;
+}
+
+//topページコンテントのcss
+.portfolio-item a img{
+  width: 100%;
+  height: 200px;
+}
+
+.portfolio-caption{
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 15px
+}
+
+section h2.section-heading {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+section h3.section-subheading {
+  font-size: 16px;
+  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: none;
+  font-style: italic;
+  font-weight: 400;
+}
+
+#search-result .panel-body{
+  height: 95px;
+}
+
+// フッターのCSS
+footer {
+    padding: 120px 0;
+    text-align: center;
+    background: #2b2d2e;
+    height:250px;
+}
+footer {
+    display: block;
+}
+
+footer span.copyright {
+    line-height: 40px;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    text-transform: none;
+    color: #fff
+}
+
+ul.social-buttons {
+    margin-bottom: 0;
+}
+
+ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li a:active {
+    background-color: #d9534f;
+}
+
+.list-inline {
+    padding-left: 0;
+    margin-left: -5px;
+    list-style: none;
+}
+
+.list-inline>li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+li.text-white a{
+  color: #fff
+}
+
+ul.social-buttons li a {
+    display: block;
+    background-color: #222222;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    font-size: 20px;
+    line-height: 40px;
+    color: white;
+    outline: none;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+footer ul.quicklinks {
+    margin-bottom: 0;
+    line-height: 40px;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    text-transform: none;
+}
+
 
 a {
   color: #222;

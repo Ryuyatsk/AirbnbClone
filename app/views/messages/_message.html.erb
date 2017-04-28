@@ -1,0 +1,20 @@
+<!-- patial just render single message -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2 text-center row-space-1">
+                <%= image_tag message.user.image, class: "img-circle profile-1" %>
+                <br>
+                <strong><%= message.user.name %></strong> 
+            </div>
+
+            <div class="col-md-8">
+                <%= message.body %>
+            </div>
+
+            <div class="col-md-2">
+                <span class="pull-right"><%= message.message_time %></span> 
+            </div>
+        </div>
+    </div>
+</div>

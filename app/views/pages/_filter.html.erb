@@ -1,0 +1,108 @@
+<!-- Search Form -->
+<%= search_form_for @search, url: search_path do |f| %>
+
+  <%= hidden_field_tag :search, session[:address],:id => "search-address" %>
+ 
+  <div class="filter">
+
+    <!-- カレンダー -->
+    <div class="row filter-section">
+      <div class="col-md-1 text-center col-md-offset-1">
+        <h4>日付</h4>
+      </div>
+      <div class="col-md-4 col-xs-6 col-md-offset-1">
+        <%= text_field_tag :start_date, params[:start_date], placeholder: "Start Date", class: "form-control",value: session[:start_date] %>
+      </div>
+      <div class="col-md-4 col-xs-6">
+        <%= text_field_tag :end_date, params[:end_date], placeholder: "End Date", class: "form-control",value: session[:end_date] %>
+      </div>
+    </div>
+
+    <hr>
+    <!-- 価格 -->
+    <div class="row filter-section">
+      <div class="col-md-1 text-center col-md-offset-1">
+        <h4>価格</h4>
+      </div>
+
+      <div class="col-md-4 col-xs-6 col-md-offset-1">
+        <%= f.text_field :price_pernight_gteq, placeholder: "Min",value:session[:price_pernight_gteq],class:"form-control" %>
+      </div>
+      <div class="col-md-4 col-xs-6">
+        <%= f.text_field :price_pernight_lteq, placeholder: "Max",value:session[:price_pernight_lteq],class:"form-control" %>
+      </div>
+    </div>
+    
+    <!-- 家の形態 -->
+    <div class="row filter-section row-space-top-4 row-space-4">
+
+      <div class="col-md-3 text-center">
+        <h4>家のタイプ</h4>
+      </div>
+      
+      <div class="col-md-3 col-xs-4">
+        <%= check_box_tag "q[home_type_eq_any][]", "マンション",session[:Mansion] %> マンション
+      </div>
+      <div class="col-md-3 col-xs-4">
+        <%= check_box_tag "q[home_type_eq_any][]", "一軒家",session[:House] %> 一軒家
+      </div>
+      <div class="col-md-3 col-xs-4">
+        <%= check_box_tag "q[home_type_eq_any][]", "アパート",session[:Apartment]%> アパート
+      </div>
+    </div>
+    
+    <!-- ペットタイプ -->
+    <div class="row filter-section">
+      <div class="col-md-3 col-xs-6 text-center">
+        <h4>ペットのタイプ</h4>
+      </div>
+      <div class="col-md-3 col-xs-6">
+        <div class="form-group">
+          <%= f.select :pet_type_eq, [["犬","犬"], ["猫","猫"], ["鳥類","鳥類"], ["爬虫類","爬虫類"], ["魚類","魚類"], ["両生類","両生類"], ["その他","その他"]], { :include_blank => "Select",:selected => session[:pet_type_eq]},{class: "form-control"} %>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-xs-6 text-center">
+        <h4>飼育歴</h4>
+      </div>
+      <div class="col-md-3 col-xs-6">
+        <div class="form-group">
+          <%= f.select :breeding_years_gteq, [["1year",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6",6]], {:include_blank => "Select",:selected => session[:breeding_years_gteq]}, {class: 'form-control'} %>
+        </div>
+      </div>
+  
+    </div>
+    
+    <!-- Submitボタン -->
+    <div class="row filter-section">
+      <div class="col-md-3">
+        <%= f.submit "Re-search", class: "btn btn-danger" %>
+      </div>
+    </div>    
+  </div>
+<% end %>
+
+
+<!-- datepickerのスクリプト -->
+<script>
+  $(function() {
+    $("#start_date").datepicker({
+      dateFormat: 'dd-mm-yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#end_date').datepicker("option", "minDate", selected);
+        $('#end_date').attr('disabled', false);
+      }
+    });
+
+    $("#end_date").datepicker({
+      dateFormat: 'dd-mm-yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#start_date').datepicker("option", "maxDate", selected);
+      }
+    });
+  })
+</script>

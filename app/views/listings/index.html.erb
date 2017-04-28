@@ -23,7 +23,11 @@
                             </div>
                             
                             <div class="col-md-3 col-sm-3 col-middle row-space-1">
-                                <%= link_to "残り5ステップ", manage_listing_basics_path(listing), class: "btn btn-primary pull-right" %>
+                                <% if listing.not_checked > 0%>
+                                    <%= link_to "残り#{listing.not_checked}ステップ", manage_listing_basics_path(listing), class: "btn btn-primary pull-right" %>
+                                <% else %>
+                                    <%= link_to "編集する", manage_listing_basics_path(listing), class: "btn btn-success pull-right" %>
+                                <% end %>
                             </div>
                         </div>
                     </li>
